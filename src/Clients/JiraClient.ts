@@ -197,13 +197,16 @@ export class JiraClient implements ITfsClient {
                 issue.fields['description']
               );
 
-                const isDone = issue.fields?.status?.statusCategory?.key === 'done';
+              const statusName = issue.fields?.status?.name || "";
+              const doneStatuses = ["Done", "Closed", "Resolved"];
+              const isDone = doneStatuses.includes(statusName);
 
-                if (isDone) {
-                    completedTasks.push(taskObj);
-                } else {
-                    activeTasks.push(taskObj);
-                }
+              if (isDone) {
+                completedTasks.push(taskObj);
+              } else {
+                activeTasks.push(taskObj);
+              }
+
             }
           });
         });

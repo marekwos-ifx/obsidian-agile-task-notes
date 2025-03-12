@@ -108,6 +108,7 @@ export class VaultHelper {
 
       tasks.forEach((task: Task) => {
         if (task.state === column) {
+          console.log("State vs Column", task.state, column);
           let file = this.getFileByTaskId(path, task.id, app);
           if (file != undefined) {
             if (teamLeaderMode) {
