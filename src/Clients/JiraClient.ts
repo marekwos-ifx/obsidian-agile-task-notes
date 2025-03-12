@@ -38,12 +38,12 @@ export class JiraClient implements ITfsClient {
       Authorization: '',
       'Content-Type': 'application/json',
     };
-    if (settings.jiraSettings.authmode == 'basic') {
+      if (settings.jiraSettings.authmode === 'basic') {
       const encoded64Key = Buffer.from(`${settings.jiraSettings.email}:${settings.jiraSettings.apiToken}`).toString(
         'base64'
       );
       headers.Authorization = `Basic ${encoded64Key}`;
-    } else if ((settings.jiraSettings.authmode = 'bearer')) {
+      } else if (settings.jiraSettings.authmode === 'bearer') {
       headers.Authorization = `Bearer ${settings.jiraSettings.apiToken}`;
     }
 
@@ -197,11 +197,13 @@ export class JiraClient implements ITfsClient {
                 issue.fields['description']
               );
 
-              if (issue.fields['resolution'] != null) {
-                completedTasks.push(taskObj);
-              } else {
-                activeTasks.push(taskObj);
-              }
+                const isDone = issue.fields?.status?.statusCategory?.key === 'done';
+
+                if (isDone) {
+                    completedTasks.push(taskObj);
+                } else {
+                    activeTasks.push(taskObj);
+                }
             }
           });
         });
